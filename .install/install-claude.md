@@ -4,3 +4,10 @@
 ```
 
 使用文件链接~/.agents/skills到~/.claude/skills
+
+修改~/.claude/settings.json，添加
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  }
+}
