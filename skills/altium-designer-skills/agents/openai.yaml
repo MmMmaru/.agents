@@ -1,0 +1,4 @@
+interface:
+  display_name: "Altium Designer"
+  short_description: "Work safely with Altium Designer PCB netlists and scripts."
+  default_prompt: "Use this skill when creating or debugging Altium Designer PCB scripts, especially net assignment and interactive routing net inheritance."
