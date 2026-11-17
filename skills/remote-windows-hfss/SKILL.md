@@ -1,6 +1,6 @@
 ---
 name: remote-windows-hfss
-description: Use this skill when running commands, Python scripts, PyAEDT, or HFSS jobs on remote Windows servers through SSH, especially jzh_server1.
+description: Use this skill when running commands, Python scripts, PyAEDT, or HFSS jobs on remote Windows servers through SSH, especially jzh_server1 and jzh_server2.
 ---
 
 # Remote Windows HFSS Skill
@@ -21,6 +21,31 @@ description: Use this skill when running commands, Python scripts, PyAEDT, or HF
 - pip: `pip 24.0`
 - PyAEDT: `ansys.aedt.core 0.25.1`
 - AEDT install root: `C:\Program Files\AnsysEM\v232`
+
+`jzh_server2` was checked on 2026-11-13.
+
+- Host alias: `jzh_server2` (`~/.ssh/config`), user `徐容圣`, port 22
+- IP: `121.248.55.219` (campus DHCP, it changes; previous `121.248.52.34`)
+- Hostname: `DESKTOP-9BH6DAG`, Windows 11 Pro, i7-13700K (16 cores), 64 GB RAM
+- Remote shell: Windows PowerShell 5.1
+- AEDT: `D:\Program Files\AnsysEM\v241` (2024.1, the one in use) and `C:\Program Files\AnsysEM\v221`
+- Project root: `D:\PROJECT\nonuniform_array` (branch `rotate`), HFSS project `hfss\center_fed_CP2022.aedt`
+- Python: project venv `D:\PROJECT\nonuniform_array\.venv` (Python 3.12.4 from `D:\anaconda`, PyAEDT 0.25.1, pywin32). `python` on PATH is only the WindowsApps stub; always call the venv interpreter by absolute path.
+- Claude Code 2.1.318 at `%APPDATA%\npm\claude.cmd`, logged in. Persistent `claude remote-control` instances run as scheduled tasks (at logon, interactive session) through `D:\PROJECT\.claude_rc\start_claude_rc.ps1 -WorkDir <dir> -Name <name>`, which restarts the process if it exits; logs in `D:\PROJECT\.claude_rc\logs`. Current tasks: `claude_remote_control` (`D:\PROJECT\nonuniform_array`, name `jzh_server2`) and `claude_remote_control_demo2` (`D:\PROJECT\nonuniform_array_demo2`, name `jzh_server2_demo2`). Add another folder by registering one more task with the same launcher.
+
+### jzh_server2 IP changed
+- The newest IP is the first entry (`MRU0`) of the local RDP history: `Get-ItemProperty "HKCU:\Software\Microsoft\Terminal Server Client\Default"`.
+- Confirm it is the same machine before trusting it: `ssh-keyscan -t ed25519 <new ip>` must match the old IP's key in `~/.ssh/known_hosts`. Then update `HostName` in `~/.ssh/config`.
+- If ssh reports `Bad owner or permissions on .ssh/config`, the file inherited a `CodexSandboxUsers` ACL. Fix: `icacls "$env:USERPROFILE\.ssh\config" /inheritance:r /grant:r "$($env:USERNAME):F" "SYSTEM:F" "Administrators:F"`.
+
+### jzh_server2: reading results from the AEDT GUI the user has open
+- The user usually keeps the project open in the AEDT GUI (RDP session), so the project is locked. Do not open a second AEDT on it and do not kill the GUI.
+- An SSH session cannot COM-attach to the GUI (different Windows session). Run the Python script inside the interactive session instead: register a scheduled task with `New-ScheduledTaskPrincipal -LogonType Interactive`, action `.venv\Scripts\pythonw.exe -u <script>`, start it, poll a done-marker file, then delete the task.
+- In the script attach with `win32com.client.Dispatch("Ansoft.ElectronicsDesktop").GetAppDesktop()`; compare the `ansysedt.exe` PID list before/after to make sure no new AEDT was spawned.
+- Embedded element patterns for all ports export without touching sources: `design.GetModule("RadField").ExportElementPatternToFile([...])` per frequency (64 ports took about 10 s per frequency). FFD rows are theta-outer, phi-inner; fields are in the global frame with position phase included.
+- Sphere properties are not readable through `GetPropertyValue`; read `FarFieldSetups` and element `UDMRotate`/`UDMMove` placements from the `.aedt` text.
+- Finished solve status is readable without AEDT from `<project>.aedtresults\<design>.results\*.profile` and `*.EMConvData`.
+- Never run recursive `Get-ChildItem` over `D:\` or the `.aedtresults` tree (hundreds of GB); it times out.
 
 ## Core Rules
 - Treat the remote shell as Windows PowerShell, not Bash.

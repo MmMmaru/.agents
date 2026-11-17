@@ -1,0 +1,60 @@
+{
+  "version": 3,
+  "skills": {
+    "cf-cli": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/cf-cli/SKILL.md",
+      "skillFolderHash": "1ca024bb576e6b43e7c10b3fb5b71a6fb39de7af",
+      "installedAt": "2026-10-17T09:23:08.809Z",
+      "updatedAt": "2026-10-17T09:24:09.420Z"
+    },
+    "cloudflare": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/cloudflare/SKILL.md",
+      "skillFolderHash": "d964e627e14032b05351d06d7f06fed14362350e",
+      "installedAt": "2026-10-17T09:23:08.820Z",
+      "updatedAt": "2026-10-17T09:24:09.431Z"
+    },
+    "cloudflare-one": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/cloudflare-one/SKILL.md",
+      "skillFolderHash": "d74021a79642a4594ee116249cefd1a04b3ad5a1",
+      "installedAt": "2026-10-17T09:23:08.842Z",
+      "updatedAt": "2026-10-17T09:24:09.457Z"
+    },
+    "web-perf": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/web-perf/SKILL.md",
+      "skillFolderHash": "c4c15a909ae86c00d4fbf841238bbf56eb505ac8",
+      "installedAt": "2026-10-17T09:23:08.965Z",
+      "updatedAt": "2026-10-17T09:24:09.574Z"
+    },
+    "workers-best-practices": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/workers-best-practices/SKILL.md",
+      "skillFolderHash": "60b76163741cb3464f710138ee2023e06403aaa5",
+      "installedAt": "2026-10-17T09:23:08.975Z",
+      "updatedAt": "2026-10-17T09:24:09.587Z"
+    },
+    "wrangler": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/wrangler/SKILL.md",
+      "skillFolderHash": "a6f70b001b36794b778ed888fc372df40d59e6ca",
+      "installedAt": "2026-10-17T09:23:08.999Z",
+      "updatedAt": "2026-10-17T09:24:09.613Z"
+    }
+  },
+  "dismissed": {}
+}
